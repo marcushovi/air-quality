@@ -1,7 +1,7 @@
 "use client";
 
 import { useDevices } from "@/components/Contexts/DeviceContext";
-import DeviceData from "@/components/app/deviceData";
+import DeviceData from "@/components/app/DeviceData";
 import { LineChart } from "@mantine/charts";
 import {
   Badge,
