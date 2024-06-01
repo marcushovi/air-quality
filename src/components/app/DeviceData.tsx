@@ -186,9 +186,9 @@ export default function DeviceData({
           radius="md"
           style={(theme) => ({
             backgroundColor:
-              1.5 >= lastValue("Battery")
+              15 >= lastValue("Battery")
                 ? theme.colors.red[9]
-                : 2 >= lastValue("Battery")
+                : 30 >= lastValue("Battery")
                 ? theme.colors.yellow[9]
                 : theme.colors.green[9],
           })}
@@ -196,10 +196,10 @@ export default function DeviceData({
           <Center>
             <Stack>
               <Badge size="xl" color="gray">
-                Batterry Volatage
+                Batterry
               </Badge>
               <Text fw={700} size="xl" ta="center" c="white">
-                {lastValue("Battery")}V
+                {lastValue("Battery")}%
               </Text>
             </Stack>
           </Center>

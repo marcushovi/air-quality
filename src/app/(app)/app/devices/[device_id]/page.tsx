@@ -91,7 +91,9 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
         Temp_trend: parseFloat(item.temp_trend),
         Humi_trend: parseFloat(item.humi_trend),
         CO2_trend: parseFloat(item.co2_trend),
-        Battery: parseFloat(item.batt_avg),
+        Battery: Math.round(
+          ((parseFloat(item.batt_avg) - 1.5) / (6.5 - 1.5)) * 100
+        ),
         Position: item.position,
       };
     });
@@ -280,22 +282,22 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
       />
 
       <Space h="md" />
-      <Title order={2}>Battery voltage</Title>
+      <Title order={2}>Battery</Title>
       <Space h="md" />
       <LineChart
         h={300}
         data={data}
         dataKey="date"
-        series={[{ name: "Battery", color: "gray.6" }]}
+        series={[{ name: "Battery", color: "green.6" }]}
         curveType="monotone"
-        unit="V"
+        unit="%"
         withLegend
         legendProps={{ verticalAlign: "bottom", height: 50 }}
         dotProps={{ r: 0 }}
         lineChartProps={{ syncId: "air" }}
         referenceLines={[
-          { y: 1.5, label: "0%", color: "red.6" },
-          { y: 2, label: "Charge battery!!!", color: "yellow.6" },
+          { y: 15, label: "15%", color: "red.6" },
+          { y: 30, label: "30%", color: "yellow.6" },
         ]}
       />
       {/* <Space h="lg" />
