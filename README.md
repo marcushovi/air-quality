@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project [`Air Quality`](https://air-quality.tes-t.cz/).
 
 ## Getting Started
 
-First, run the development server:
+First, run the build and then start:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+
+npm run build
+
+npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **POST** požadavky předávají parametry v JSON formátu v **Body**, většinou jde o data z formulářů
+- **GET** požadavky předávají parametry, které jsou součástí URL (route)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| URI                               | METODA | VSTUP                                                               | VÝSTUP                                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------- | ------ | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **USER**                          |
+| user/sign-in                      | POST   | `email`, `password`                                                 | `session_id` - v HEADER, `user_id`, `email` `in_app_notification`, `email_notification`                                                                                                                                                                                                                                                 |
+| user/sign-out                     | POST   | `session_id` ,`user_id`                                             | `user_id`, `email`                                                                                                                                                                                                                                                                                                                      |
+| user/update-notification-settings | POST   | `session_id`,`user_id`, `in_app_notification`, `email_notification` | `user_id`, `in_app_notification`, `email_notification`                                                                                                                                                                                                                                                                                  |
+| user/update-password              | POST   | `session_id`, `user_id`, `new_password`                             | `user_id`, `email`                                                                                                                                                                                                                                                                                                                      |
+| **DEVICE**                        |
+| device/get                        | GET    | `session_id`, `user_id`, `device_id`                                | `device_id`, `name`, `location`, `status`                                                                                                                                                                                                                                                                                               |
+| device/update                     | POST   | `session_id`, `user_id`, `device_id`                                | `device_id`, `name`, `location`, `status`                                                                                                                                                                                                                                                                                               |
+| device/get-data                   | GET    | `session_id`, `user_id`, `device_id`, `date`                        | `data[] {` `device_id`, `date`, `AQI[] {timestamp, value}`, `CO2_data[] { timestamp, value }`, `VOC_data[] { timestamp, value }`, `NOX_data[] { timestamp, value }`, `temperature_data[] { timestamp, value }`,`humidity_data[] { timestamp, value }`,` battery_data[] { timestamp, value }`,`position_data[] { timestamp, value }` `}` |
+| device/add                        | POST   | `session_id`, `user_id`, `name`, `location`                         | `device_id`, `name`, `location`, `status`                                                                                                                                                                                                                                                                                               |
+| device/delete                     | POST   | `session_id`, `user_id`, `device_id`                                | `device_id`, `name`, `location`, `status`                                                                                                                                                                                                                                                                                               |
