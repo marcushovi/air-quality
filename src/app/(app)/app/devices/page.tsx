@@ -35,7 +35,7 @@ const Devices = () => {
     setModalOpened(true);
   };
 
-  const handleSubmitDevice = (device: DeviceFormValues) => {
+  const handleSubmitDevice = (device: any) => {
     if (selectedDevice) {
       updateDevice(device);
     } else {
