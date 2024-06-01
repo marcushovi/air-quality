@@ -79,7 +79,10 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
       }, 1000);
 
       // Cleanup interval on component unmount
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(fetchInterval);
+        clearInterval(timerInterval);
+      };
     }
   }, [isLoading, user]);
 
