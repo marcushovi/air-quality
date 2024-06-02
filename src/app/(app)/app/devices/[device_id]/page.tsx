@@ -83,17 +83,18 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
       date.setHours(date.getHours() + 2); // Convert to UTC +2 hours
       return {
         date: date.toISOString().slice(11, 16), // Convert to HH:mm format
-        CO2: parseFloat(item.co2_avg),
-        VOC: parseFloat(item.voc_avg),
-        NOx: parseFloat(item.nox_avg),
-        Temperature: parseFloat(item.temp_avg),
-        Humidity: parseFloat(item.humi_avg),
+        CO2: Math.round(parseFloat(item.co2_avg) * 10) / 10,
+        VOC: Math.round(parseFloat(item.voc_avg) * 10) / 10,
+        NOx: Math.round(parseFloat(item.nox_avg) * 10) / 10,
+        Temperature: Math.round(parseFloat(item.temp_avg) * 10) / 10,
+        Humidity: Math.round(parseFloat(item.humi_avg) * 10) / 10,
         Temp_trend: parseFloat(item.temp_trend),
         Humi_trend: parseFloat(item.humi_trend),
         CO2_trend: parseFloat(item.co2_trend),
-        Battery: Math.round(
-          ((parseFloat(item.batt_avg) - 1.5) / (6.5 - 1.5)) * 100
-        ),
+        Battery:
+          Math.round(
+            ((parseFloat(item.batt_avg) - 1.5) / (6.5 - 1.5)) * 100 * 10
+          ) / 10,
         Position: item.position,
       };
     });

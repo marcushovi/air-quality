@@ -83,7 +83,7 @@ export const DeviceCard = ({
         <Group justify="space-between" grow style={{ marginBottom: 5 }}>
           <Text w={500}>{name}</Text>
           <Group justify="flex-end">
-            <Badge color={status === "Online" ? "green" : "red"}>
+            <Badge color={status === "online" ? "green" : "red"}>
               {status}
             </Badge>
           </Group>

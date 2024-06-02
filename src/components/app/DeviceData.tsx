@@ -20,7 +20,7 @@ export default function DeviceData({
         <Group justify="space-between" grow style={{ marginBottom: 5 }}>
           <Text w={500}>{device.name}</Text>
           <Group justify="flex-end">
-            <Badge color={device.status === "Online" ? "green" : "red"}>
+            <Badge color={device.status === "online" ? "green" : "red"}>
               {device.status}
             </Badge>
           </Group>
