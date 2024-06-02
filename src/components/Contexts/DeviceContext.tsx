@@ -51,12 +51,13 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const [devices, setDevices] = useState<Device[]>([]);
   const { isLoading, user } = useUser();
   const [isLoadingDevices, setIsLoadingDevices] = useState(true);
-  const [remainingTimeToRefresh, setRemainingTimeToRefresh] = useState(300); // 5 minutes in seconds
   const apiCallDelay =
     parseInt(process.env.NEXT_PUBLIC_API_CALL_DELAY ?? "") || 1000;
   const refreshSensorDataInterval =
     parseInt(process.env.NEXT_PUBLIC_REFRESH_SENSOR_DATA_INTERVAL ?? "") ||
-    300005;
+    600;
+
+  const [remainingTimeToRefresh, setRemainingTimeToRefresh] = useState(refreshSensorDataInterval); // 5 minutes in seconds
 
   useEffect(() => {
     const fetchDevicesData = async () => {
@@ -70,7 +71,7 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
       // Set interval to fetch device states every 5 minutes
       const fetchInterval = setInterval(() => {
         updateAllDeviceStates();
-        setRemainingTimeToRefresh(300); // Reset remaining time after each fetch
+        setRemainingTimeToRefresh(refreshSensorDataInterval); // Reset remaining time after each fetch
       }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
       // Set interval to update remaining time every second

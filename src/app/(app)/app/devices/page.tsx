@@ -16,10 +16,20 @@ import {
   Title,
 } from "@mantine/core";
 import { useState } from "react";
-
+function convertSecondsToMinutesAndSeconds(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
+}
 const Devices = () => {
-  const { remainingTimeToRefresh, isLoadingDevices, devices, updateDevice, addDevice, deleteDevice } =
-    useDevices();
+  const {
+    remainingTimeToRefresh,
+    isLoadingDevices,
+    devices,
+    updateDevice,
+    addDevice,
+    deleteDevice,
+  } = useDevices();
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState<DeviceFormValues | null>(
     null
@@ -40,7 +50,7 @@ const Devices = () => {
       updateDevice(device);
     } else {
       addDevice(device);
-    } 
+    }
     setModalOpened(false);
   };
 
@@ -50,12 +60,17 @@ const Devices = () => {
         <Group>
           <Title>Devices</Title>
           <Badge color="green" size="lg">
-            Online: {devices.filter(device => device?.status === "online").length}
+            Online:{" "}
+            {devices.filter((device) => device?.status === "online").length}
           </Badge>
           <Badge color="red" size="lg">
-            Offline: {devices.filter(device => device?.status === "offline").length}
+            Offline:{" "}
+            {devices.filter((device) => device?.status === "offline").length}
           </Badge>
-          <Badge variant="transparent" color="gray" size="lg">Next Refresh in: {remainingTimeToRefresh}s</Badge>
+          <Badge variant="transparent" color="gray" size="lg">
+            Next Refresh in:{" "}
+            {convertSecondsToMinutesAndSeconds(remainingTimeToRefresh)}
+          </Badge>
         </Group>
         <Button onClick={handleAddDevice}>Add device</Button>
       </Group>

@@ -130,7 +130,49 @@ export default function DeviceData({
           </Center>
         </Paper>
       </Grid.Col>
+
       <Grid.Col span={{ base: 12, xs: 4 }}>
+        <Paper
+          shadow="xs"
+          p="lg"
+          withBorder
+          radius="md"
+          style={(theme) => ({
+            backgroundColor:
+              15 >= lastValue("Battery")
+                ? theme.colors.red[9]
+                : 30 >= lastValue("Battery")
+                ? theme.colors.yellow[9]
+                : theme.colors.green[9],
+          })}
+        >
+          <Center>
+            <Stack>
+              <Badge size="xl" color="gray">
+                Batterry
+              </Badge>
+              <Text fw={700} size="xl" ta="center" c="white">
+                {lastValue("Battery")}%
+              </Text>
+            </Stack>
+          </Center>
+        </Paper>
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, xs: 4 }}>
+        <Paper shadow="xs" p="lg" withBorder radius="md">
+          <Center>
+            <Stack>
+              <Badge size="xl" color="gray">
+                Position
+              </Badge>
+              <Text fw={700} size="xl" ta="center" c="white">
+                {lastValue("Position")}
+              </Text>
+            </Stack>
+          </Center>
+        </Paper>
+      </Grid.Col>
+      {/* <Grid.Col span={{ base: 12, xs: 4 }}>
         <Paper
           shadow="xs"
           p="lg"
@@ -177,48 +219,7 @@ export default function DeviceData({
             </Stack>
           </Center>
         </Paper>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, xs: 4 }}>
-        <Paper
-          shadow="xs"
-          p="lg"
-          withBorder
-          radius="md"
-          style={(theme) => ({
-            backgroundColor:
-              15 >= lastValue("Battery")
-                ? theme.colors.red[9]
-                : 30 >= lastValue("Battery")
-                ? theme.colors.yellow[9]
-                : theme.colors.green[9],
-          })}
-        >
-          <Center>
-            <Stack>
-              <Badge size="xl" color="gray">
-                Batterry
-              </Badge>
-              <Text fw={700} size="xl" ta="center" c="white">
-                {lastValue("Battery")}%
-              </Text>
-            </Stack>
-          </Center>
-        </Paper>
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, xs: 4 }}>
-        <Paper shadow="xs" p="lg" withBorder radius="md">
-          <Center>
-            <Stack>
-              <Badge size="xl" color="gray">
-                Position
-              </Badge>
-              <Text fw={700} size="xl" ta="center" c="white">
-                {lastValue("Position")}
-              </Text>
-            </Stack>
-          </Center>
-        </Paper>
-      </Grid.Col>
+      </Grid.Col> */}
     </Grid>
   );
 }

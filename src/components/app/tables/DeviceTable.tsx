@@ -7,13 +7,9 @@ import { useDevices } from '@/components/Contexts/DeviceContext';
 export function DeviceTable() {
 
   const { devices } = useDevices();
-  const onlineDevicess = devices.filter((devicee) => devicee.status === "Online");
-
-  const onlineDevices = devices.filter((device) => device.status === "Online");
-
 
   const rows = devices.map((row) => {
-    const qualityIndex = 33 //TODO
+    // const qualityIndex = 33 //TODO
     // const positiveReviews = (row.reviews.positive / totalReviews) * 100;
     // const negativeReviews = (row.reviews.negative / totalReviews) * 100;
 
@@ -30,7 +26,7 @@ export function DeviceTable() {
             {row.location}
           </Anchor>
         </Table.Td>
-        <Table.Td>{Intl.NumberFormat().format(qualityIndex)}</Table.Td>
+        {/* <Table.Td>{Intl.NumberFormat().format(qualityIndex)}</Table.Td>
         <Table.Td>
           <Group justify="space-between">
             <Text fz="xs" c="teal" fw={700}>
@@ -59,7 +55,7 @@ export function DeviceTable() {
               color="yellow"
             />
           </Progress.Root>
-        </Table.Td>
+        </Table.Td> */}
       </Table.Tr>
     );
   });
@@ -72,8 +68,6 @@ export function DeviceTable() {
             <Table.Th>Device name</Table.Th>
             <Table.Th>Serial number</Table.Th>
             <Table.Th>Location</Table.Th>
-            <Table.Th>Air quality index</Table.Th>
-            <Table.Th>Air quality index</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

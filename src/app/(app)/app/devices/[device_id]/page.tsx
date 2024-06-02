@@ -63,16 +63,26 @@ const formatDateToDDMMYYYY = (date: string | number | Date) => {
   return `${day}.${month}.${year}`;
 };
 
+function convertSecondsToMinutesAndSeconds(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
+}
+
 const DevicePage = ({ params }: { params: { device_id: string } }) => {
   const { getSensorData, devices } = useDevices();
   const [data, setData] = useState<SensorData[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [remainingTimeToRefresh, setRemainingTimeToRefresh] = useState(300); // 5 minutes in seconds
   const device = devices.filter(
     (device) => device.device_id === params.device_id.toString()
   )[0];
   const router = useRouter();
+  const refreshSensorDataInterval =
+    parseInt(process.env.NEXT_PUBLIC_REFRESH_SENSOR_DATA_INTERVAL ?? "") || 600;
+  const [remainingTimeToRefresh, setRemainingTimeToRefresh] = useState(
+    refreshSensorDataInterval
+  );
 
   const fetchData = async (date: Date) => {
     setLoading(true);
@@ -108,7 +118,7 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
 
       const interval = setInterval(() => {
         fetchData(selectedDate);
-      }, 5 * 60 * 1000); // 5 minutes in milliseconds
+      }, refreshSensorDataInterval * 1000);
 
       const timerInterval = setInterval(() => {
         setRemainingTimeToRefresh((prev) => (prev > 0 ? prev - 1 : 300));
@@ -155,7 +165,8 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
       <Group justify="space-between">
         <Group>
           <Badge variant="transparent" color="gray" size="lg">
-            Next Refresh in: {remainingTimeToRefresh}s
+            Next Refresh in:{" "}
+            {convertSecondsToMinutesAndSeconds(remainingTimeToRefresh)}
           </Badge>
         </Group>
 
@@ -168,49 +179,6 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
           onChange={setSelectedDate}
         />
       </Group>
-      <Space h="xl" />
-      {/* 
-      <Container>
-        <Center>
-          <Title order={2}>Air Quality Index</Title>
-          <Space h="md" />
-          {dataWithAQI.length > 0 ? (
-            <DonutChart
-              strokeWidth={0}
-              thickness={30}
-              data={[
-                {
-                  name: "Air Quality Index",
-                  value: dataWithAQI[dataWithAQI.length - 1]?.AQI || 0,
-                  color: "green.6",
-                },
-              ]}
-              chartLabel={dataWithAQI[dataWithAQI.length - 1]?.AQI || "N/A"}
-              strokeColor="var(--card-bg)"
-            />
-          ) : (
-            "No Data"
-          )}
-          <LineChart
-            h={300}
-            data={dataWithAQI}
-            dataKey="date"
-            series={[{ name: "AQI", color: "gray.6" }]}
-            curveType="monotone"
-            withLegend
-            legendProps={{ verticalAlign: "bottom", height: 50 }}
-            dotProps={{ r: 0 }}
-            lineChartProps={{ syncId: "air" }}
-            referenceLines={[
-              { y: 0, label: "Good ↑ (less is better)", color: "green.6" },
-              { y: 51, label: "Moderate ↑", color: "yellow.6" },
-              { y: 101, label: "Unhealthy ↑", color: "orange.6" },
-              { y: 201, label: "Very Unhealthy ↑", color: "red.6" },
-              { y: 301, label: "Hazardous ↑", color: "red.6" },
-            ]}
-          />
-        </Center>
-      </Container> */}
       <Space h="lg" />
       <Title order={2}>CO2</Title>
       <Space h="md" />
@@ -257,28 +225,6 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
           { y: 45, label: "45°C", color: "red.6" },
         ]}
       />
-      <Space h="md" />
-      <Title order={2}>Humidity</Title>
-      <Space h="md" />
-      <LineChart
-        h={300}
-        data={data}
-        dataKey="date"
-        unit="%"
-        series={[{ name: "Humidity", color: "blue.6" }]}
-        curveType="monotone"
-        withLegend
-        legendProps={{ verticalAlign: "bottom", height: 50 }}
-        dotProps={{ r: 0 }}
-        lineChartProps={{ syncId: "air" }}
-        referenceLines={[
-          { y: 0, label: "0%", color: "red.6" },
-          { y: 30, label: "30% or more ↑", color: "green.6" },
-          { y: 50, label: "50% or less ↓", color: "green.6" },
-          { y: 80, label: "70% or less ↓", color: "yellow.6" },
-          { y: 100, label: "100% or less ↓", color: "red.6" },
-        ]}
-      />
 
       <Space h="md" />
       <Title order={2}>Battery</Title>
@@ -299,6 +245,29 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
           { y: 30, label: "30%", color: "yellow.6" },
         ]}
       />
+
+      {/* <Space h="md" />
+      <Title order={2}>Humidity</Title>
+      <Space h="md" />
+      <LineChart
+        h={300}
+        data={data}
+        dataKey="date"
+        unit="%"
+        series={[{ name: "Humidity", color: "blue.6" }]}
+        curveType="monotone"
+        withLegend
+        legendProps={{ verticalAlign: "bottom", height: 50 }}
+        dotProps={{ r: 0 }}
+        lineChartProps={{ syncId: "air" }}
+        referenceLines={[
+          { y: 0, label: "0%", color: "red.6" },
+          { y: 30, label: "30% or more ↑", color: "green.6" },
+          { y: 50, label: "50% or less ↓", color: "green.6" },
+          { y: 80, label: "70% or less ↓", color: "yellow.6" },
+          { y: 100, label: "100% or less ↓", color: "red.6" },
+        ]}
+      /> */}
       {/* <Space h="lg" />
       <Title order={2}>VOC)</Title>
       <Space h="md" />
