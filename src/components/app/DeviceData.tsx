@@ -159,7 +159,18 @@ export default function DeviceData({
         </Paper>
       </Grid.Col>
       <Grid.Col span={{ base: 12, xs: 4 }}>
-        <Paper shadow="xs" p="lg" withBorder radius="md">
+        <Paper
+          shadow="xs"
+          p="lg"
+          withBorder
+          radius="md"
+          style={(theme) => ({
+            backgroundColor:
+              0 == lastValue("Position")
+                ? theme.colors.green[9]
+                : theme.colors.red[9],
+          })}
+        >
           <Center>
             <Stack>
               <Badge size="xl" color="gray">
