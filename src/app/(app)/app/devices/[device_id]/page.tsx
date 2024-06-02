@@ -232,9 +232,7 @@ const DevicePage = ({ params }: { params: { device_id: string } }) => {
             color: "green.6",
           },
           { y: device?.co2_yellow, label: "Moderate ", color: "yellow.6" },
-          { y: device?.co2_red, label: "Unhealthy ", color: "orange.6" },
-          { y: 1500, label: "Very Unhealthy ", color: "red.6" },
-          { y: 2500, label: "Hazardous ", color: "red.6" },
+          { y: device?.co2_red, label: "Unhealthy ", color: "red.6" },
         ]}
       />
       <Space h="md" />
